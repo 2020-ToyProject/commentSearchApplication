@@ -25,6 +25,7 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import com.comment.search.dto.CommentDto;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
 
@@ -158,7 +159,14 @@ public class ElasticSearchConnector {
 	        String line = "";
 	        while((line = bufReader.readLine()) != null){
 //	            System.out.println(line);
-	            CommentDto comment = gson.fromJson(line, CommentDto.class);
+	        	CommentDto comment = null;
+	        	try{
+	        		comment = gson.fromJson(line, CommentDto.class);
+	        	}catch(JsonSyntaxException e){
+	        		Gson gson2 = new GsonBuilder().setDateFormat("yyyy.MM.dd").create();
+	        		comment = gson2.fromJson(line, CommentDto.class);
+	        	}
+	            
 	            String searchField = (comment.getCommentTitle() != null && comment.getCommentTitle().length() > 0 ) ? comment.getCommentTitle() +"\n"+ comment.getCommentContent() : comment.getCommentContent();
 	            comment.setSearchField(searchField);
 	            String tmsRawStream = "";
