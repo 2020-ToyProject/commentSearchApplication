@@ -23,16 +23,16 @@ public class Comment {
 	@Field(type=FieldType.Keyword)
 	private String comment_id;
 	
-	@Field(type=FieldType.Keyword, index=false)
+	@Field(type=FieldType.Keyword)
 	private String url;
 	
-	@Field(type=FieldType.Keyword, index=false)
+	@Field(type=FieldType.Keyword)
 	private String comment_title;
 	
-	@Field(type=FieldType.Keyword, index=false)
+	@Field(type=FieldType.Keyword)
 	private String comment_content;
 	
-	@Field(type=FieldType.Keyword, index=false)
+	@Field(type=FieldType.Keyword)
 	private String product_title;
 	
 	@Field(type=FieldType.Integer)

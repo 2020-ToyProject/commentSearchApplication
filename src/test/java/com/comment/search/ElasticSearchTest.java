@@ -47,7 +47,7 @@ public class ElasticSearchTest {
 	
 	@Test
 	public void searchById() {
-		Optional<Comment> comment = commentService.findOne("436430874");
+		Optional<Comment> comment = commentService.findOne("15031758430099487");
 		
 		Assertions.assertEquals(comment.isPresent(), true);
 		

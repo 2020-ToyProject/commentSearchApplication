@@ -35,9 +35,9 @@ public class CommentService {
 		return commentRepository.findById(id);
 	}
 	
-	public List<Comment> findByProductId(String productId){
-		return commentRepository.findByProductId(productId);
-	}
+//	public List<Comment> findByProductId(String product_id){
+//		return commentRepository.findByProduct_id(product_id);
+//	}
 	
 	public Page<Comment> findDocument(String search_field, int start, int size){
 		PageRequest pageRequest = PageRequest.of(start, size);

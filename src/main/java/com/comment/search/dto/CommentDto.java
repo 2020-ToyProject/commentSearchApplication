@@ -20,18 +20,18 @@ import lombok.Setter;
 @Document(indexName="comment", type="_doc")
 public class CommentDto {
 	
-	@Field(type=FieldType.Keyword, index=false)
+	@Field(type=FieldType.Keyword)
 	private String url;
 	
-	@Field(type=FieldType.Keyword, index=false)
+	@Field(type=FieldType.Keyword)
 	@SerializedName("comment_title") 
 	private String commentTitle;
 	
-	@Field(type=FieldType.Keyword, index=false)
+	@Field(type=FieldType.Keyword)
 	@SerializedName("comment_content") 
 	private String commentContent;
 	
-	@Field(type=FieldType.Keyword, index=false)
+	@Field(type=FieldType.Keyword)
 	@SerializedName("product_title") 
 	private String productTitle;
 	

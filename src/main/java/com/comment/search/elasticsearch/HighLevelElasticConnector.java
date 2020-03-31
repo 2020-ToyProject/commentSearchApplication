@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+import org.apache.http.HttpHost;
 import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.GetIndexRequest;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentType;
@@ -97,8 +101,20 @@ public class HighLevelElasticConnector {
         }
 	}
 	
-	public static void main(String[] args) {
-//		HighLevelElasticConnector connector = new HighLevelElasticConnector();
+	public static void main(String[] args) throws IOException {
+		RestHighLevelClient client = null;
+		try {
+			client = new RestHighLevelClient(
+			        RestClient.builder(
+			                new HttpHost("localhost", 9200, "http")));
+			
+			HighLevelElasticConnector connector = new HighLevelElasticConnector(client);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(client != null) client.close();
+		}
 		
 	}
 
