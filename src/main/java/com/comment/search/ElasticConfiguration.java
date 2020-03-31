@@ -26,7 +26,7 @@ public class ElasticConfiguration {
 
 	@Value("${elasticsearch.cluster_name}")
 	private String clusterName;
-
+	
 	@Bean
 	public Client client() throws Exception {
 		Settings settings = Settings.builder()
