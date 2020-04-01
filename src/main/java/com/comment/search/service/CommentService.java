@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
@@ -40,11 +41,10 @@ public class CommentService {
 //	}
 	
 	public Page<Comment> findDocument(String search_field, int start, int size){
-		PageRequest pageRequest = PageRequest.of(start, size);
+		PageRequest pageRequest = PageRequest.of(start, size, Sort.Direction.DESC, "_score");
 		SearchQuery searchQuery = new NativeSearchQueryBuilder()
 				.withQuery(new MatchQueryBuilder("search_field", search_field))
 				.withPageable(pageRequest)
-				.withSort(new ScoreSortBuilder().order(SortOrder.DESC))
 				.build();
 		
 		return commentRepository.search(searchQuery);

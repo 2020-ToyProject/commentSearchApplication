@@ -1,21 +1,31 @@
 package com.comment.search.elasticsearch;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.http.HttpHost;
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.GetIndexRequest;
-import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.common.xcontent.XContentType;
+
+import com.comment.search.dto.CommentDto;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * 검증되지 않음.
@@ -24,7 +34,10 @@ import org.elasticsearch.common.xcontent.XContentType;
  */
 public class HighLevelElasticConnector {
 	
-	private static final String MAPPING_FILE_PATH = "./src/main/resources/mapping.json";
+	private static final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+	private static final Gson gson2 = new GsonBuilder().setDateFormat("yyyy.MM.dd").create();
+	
+	private static final String MAPPING_FILE_PATH = "./mapping.json";
 	private static final String INDEX_NAME = "comment";
 	
 	private static final String[][] FILE_LOCATION = new String[][]{
@@ -109,6 +122,44 @@ public class HighLevelElasticConnector {
 			                new HttpHost("localhost", 9200, "http")));
 			
 			HighLevelElasticConnector connector = new HighLevelElasticConnector(client);
+			connector.createIndex(INDEX_NAME);
+			
+			for( int i = 0; i < FILE_LOCATION.length; i++ ) {
+				File file = new File(FILE_LOCATION[i][0]);
+				
+				try(	FileReader filereader = new FileReader(file);	// 스트림 생성
+				        BufferedReader bufReader = new BufferedReader(filereader);	// 버퍼 생성
+				   ) {
+					String line = "";
+			        while((line = bufReader.readLine()) != null){
+			        	CommentDto comment = null;
+			        	try{
+			        		comment = gson.fromJson(line, CommentDto.class);
+			        	}catch(JsonSyntaxException e){
+			        		comment = gson2.fromJson(line, CommentDto.class);
+			        	}
+			            
+			            String searchField = (comment.getCommentTitle() != null && comment.getCommentTitle().length() > 0 ) ? comment.getCommentTitle() +"\n"+ comment.getCommentContent() : comment.getCommentContent();
+			            comment.setSearchField(searchField);
+			            String tmsRawStream = "";
+			            for(int j = 0; j < comment.getMorphResult().length; j++) {
+			            	tmsRawStream += comment.getMorphResult()[j].split("/")[0] + " ";
+			            }
+			            comment.setTmsRawStream(tmsRawStream);
+			            comment.setProductType(FILE_LOCATION[i][1]);
+			            
+			            Type type = new com.google.gson.reflect.TypeToken<HashMap<String,Object>>(){}.getType();
+			            
+			            // add doc
+			            Map<String, Object> commentJson = gson.fromJson(gson.toJson(comment), type);
+			            
+			            IndexRequest request = new IndexRequest(INDEX_NAME, "_doc", comment.getProductId() + comment.getCommentId());
+			            request.source(commentJson);
+			            
+			            client.index(request, RequestOptions.DEFAULT);
+			        }
+				}
+			}
 			
 		} catch(Exception e) {
 			e.printStackTrace();
