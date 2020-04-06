@@ -30,9 +30,6 @@
         "search_field": {
           "type": "text",
           "analyzer": "bigram-analyzer"
-        },
-        "tms_raw_stream": {
-          "type": "text"
         }
       }
 }

@@ -141,11 +141,6 @@ public class HighLevelElasticConnector {
 			            
 			            String searchField = (comment.getCommentTitle() != null && comment.getCommentTitle().length() > 0 ) ? comment.getCommentTitle() +"\n"+ comment.getCommentContent() : comment.getCommentContent();
 			            comment.setSearchField(searchField);
-			            String tmsRawStream = "";
-			            for(int j = 0; j < comment.getMorphResult().length; j++) {
-			            	tmsRawStream += comment.getMorphResult()[j].split("/")[0] + " ";
-			            }
-			            comment.setTmsRawStream(tmsRawStream);
 			            comment.setProductType(FILE_LOCATION[i][1]);
 			            
 			            Type type = new com.google.gson.reflect.TypeToken<HashMap<String,Object>>(){}.getType();

@@ -52,9 +52,6 @@ public class Comment {
 	@Field(type=FieldType.Text, analyzer = "bigram-analyzer")
 	private String search_field;
 	
-	@Field(type=FieldType.Text)
-	private String tms_raw_stream;
-	
 	@Score
 	private float _score;
 }

@@ -1,5 +1,7 @@
 package com.comment.search.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,23 @@ public class CommentSearchController {
 				(size == null || size <= 0) ? DEFAULT_DOCUMENT_SIZE : size);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(comments);
+	}
+	
+	@GetMapping(value="/search/id")
+	public ResponseEntity<Comment> findDocumentById(
+			@RequestParam(value = "id") String id
+			){
+		if(id == null || id.length() <= 0) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
+		
+		Optional<Comment> comment = commentService.findOne(id);
+		
+		if(!comment.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(comment.get());
 	}
 	
 }

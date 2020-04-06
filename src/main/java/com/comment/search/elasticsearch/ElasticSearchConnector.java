@@ -123,7 +123,6 @@ public class ElasticSearchConnector {
 		                        .field("product_id", comment.getProductId())
 		                        .field("product_type", comment.getProductType())
 		                        .field("search_field", comment.getSearchField())
-		                        .field("tms_raw_stream", comment.getTmsRawStream())
 		                    .endObject()
 		                  )
 		        .get();
@@ -173,7 +172,6 @@ public class ElasticSearchConnector {
 	            for(int j = 0; j < comment.getMorphResult().length; j++) {
 	            	tmsRawStream += comment.getMorphResult()[j].split("/")[0] + " ";
 	            }
-	            comment.setTmsRawStream(tmsRawStream);
 	            comment.setProductType(fileLocation[i][1]);
 	            // add doc
 	    		con.addDocument(comment);
