@@ -7,7 +7,7 @@
 
 ## 2. application 구성
 
-구성도 그림 넣을거고
+![구성도](image/구성.PNG)
 
 Docker와 ElasticSearch 를 사용했다.   
 일반적으로 기업에서 리눅스를 사용해 서비스를 제공하기 때문에 환경을 맞춰주기 위해서 Docker를 사용했다.
