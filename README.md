@@ -23,9 +23,14 @@ elasticsearch 설치
 elasticsearch 실행   
 `docker run -v /c/ToyProject/data:/usr/share/elasticsearch/data -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.8.7`
 
-ping
+ping    
 `curl XGET- "hostip:9200"`
+![ping 결과](image/ping.PNG)
 
 ## 4. 댓글 색인 필드 타입
+
+![매핑타입](image/mapping.PNG)
+search_field는 comment_title 과 comment_content 를 같이 저장한 필드로   
+NGram Tokenizer를 이용하여 n-gram 검색이 가능하게 했다.
 
 ## 5. 실행 결과
