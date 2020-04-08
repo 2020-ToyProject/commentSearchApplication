@@ -29,7 +29,7 @@ ping
 
 ## 4. 댓글 색인 필드 타입
 
-![매핑타입](image/mapping.PNG)   
+![매핑타입](image/mapping.png)   
 search_field는 comment_title 과 comment_content 를 같이 저장한 필드로   
 NGram Tokenizer를 이용하여 n-gram 검색이 가능하게 했다.
 
