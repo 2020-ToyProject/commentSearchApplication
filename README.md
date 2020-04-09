@@ -34,3 +34,9 @@ search_field는 comment_title 과 comment_content 를 같이 저장한 필드로
 NGram Tokenizer를 이용하여 n-gram 검색이 가능하게 했다.
 
 ## 5. 실행 결과
+
+다음은 id로 문서를 검색한 예시 요청/결과이다.
+![id 검색](image/id 검색.png)   
+
+다음은 댓글의 제목, 본문 내용에 대한 검색 예시 요청/결과이다.
+![전문 검색](image/키워드 검색.png)
