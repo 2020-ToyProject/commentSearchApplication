@@ -77,7 +77,6 @@ public class HighLevelElasticConnector {
 			        .startObject()
 			            .field("number_of_shards",3)
 			            .field("number_of_replicas",1)
-			            
 			            .startObject("analysis")
 			                .startObject("tokenizer")
 			                    .startObject("bigram-tokenizer")
@@ -87,7 +86,6 @@ public class HighLevelElasticConnector {
 			                        .array("token_chars",new String[]{"letter","digit"})
 			                    .endObject()
 			                .endObject()
-			                
 			                .startObject("analyzer")
 			                    .startObject("bigram-analyzer")
 			                        .field("type","custom")

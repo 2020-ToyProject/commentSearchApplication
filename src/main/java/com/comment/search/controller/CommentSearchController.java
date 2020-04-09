@@ -22,7 +22,7 @@ public class CommentSearchController {
 	@Autowired
 	private CommentService commentService;
 	
-	@GetMapping(value="/search")
+	@GetMapping(value="/search/comments")
 	public ResponseEntity<Page<Comment>> findDocument(
 			@RequestParam(value = "start") Integer start,
 			@RequestParam(value = "size") Integer size,
@@ -39,7 +39,7 @@ public class CommentSearchController {
 		return ResponseEntity.status(HttpStatus.OK).body(comments);
 	}
 	
-	@GetMapping(value="/search/id")
+	@GetMapping(value="/search/comment")
 	public ResponseEntity<Comment> findDocumentById(
 			@RequestParam(value = "id") String id
 			){
